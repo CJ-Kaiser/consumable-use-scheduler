@@ -2,24 +2,16 @@ import { useState, useEffect } from "react";
 import "./styles.css"
 import { NewScheduleForm } from "./NewScheduleForm";
 import { ScheduleList } from "./ScheduleList";
+import useSchedules from "./useSchedules";
 
 export default function App() {
-  const [Schedules, setSchedules] = useState(() => {
-    const localValue = localStorage.getItem("ITEMS");
-    if(localValue == null) return [];
-
-    return JSON.parse(localValue);
-  });
-
-  useEffect(() => {
-    localStorage.setItem("ITEMS", JSON.stringify(Schedules))
-  }, [Schedules]);
+  const [schedules, setSchedules] = useSchedules();
 
   function addSchedule(title) {
     setSchedules(currentSchedules => {
       return [
         ...currentSchedules,
-        {id: crypto.randomUUID(), title, completed: false}
+        {id: crypto.randomUUID(), title}
       ]
     });
   }
@@ -46,9 +38,10 @@ export default function App() {
       <NewScheduleForm onSubmit={addSchedule}/>
       <h1 className="header">Schedule List</h1>
       <ScheduleList
-        Schedules={Schedules}
+        Schedules={schedules}
         deleteSchedule={deleteSchedule}
       />
+
     </>
   );
 }

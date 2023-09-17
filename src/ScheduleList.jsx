@@ -8,6 +8,7 @@ export function ScheduleList({ Schedules, deleteSchedule }) {
                 return (
                     <ScheduleItem
                         {...Schedule}
+                        key={Schedule.id}
                         deleteSchedule={deleteSchedule}
                     />
                 );
