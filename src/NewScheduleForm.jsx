@@ -15,7 +15,7 @@ const modeOptions = [
   }
 ];
 
-//TODO: Formik for Validation? Refer to project from Ract Basics.
+//TODO: Formik and Yup for validation? Refer to project from Ract Basics.
 export function NewScheduleForm({onSubmit}) {
     const [name, setName] = useState("");
     const [duration, setDuration] = useState("");
@@ -27,12 +27,14 @@ export function NewScheduleForm({onSubmit}) {
     function handleSubmit(e) {
       e.preventDefault();
       if(name === "") return;
-      if(duration === NaN || duration <= 0) return;
+      //if(duration === NaN || duration <= 0) return;
 
       onSubmit(name);
 
       setName("");
       setDuration("");
+      setInterval("");
+      setItemCount("");
     };
 
     const showDurationInput = () => mode != "durationMissing";
@@ -54,7 +56,7 @@ export function NewScheduleForm({onSubmit}) {
             onChange={e => setName(e.target.value)}
           />
         </label>
-        <div className="form-sep"></div>
+        <div className="form-sep-invis"></div>
         <label htmlFor="mode" className="form-input-h">Mode
             <select
               id="mode"
@@ -96,7 +98,9 @@ export function NewScheduleForm({onSubmit}) {
               />
             </label>
           }
+          <div className="form-sep-invis"></div>
         <button className="btn">Add</button>
+        <div className="form-sep"></div>
       </form>
     );
 }

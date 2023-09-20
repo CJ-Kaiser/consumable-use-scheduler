@@ -33,6 +33,12 @@ body {
   width: 90%;
   height: 1px;
   background-color: #666;
+  margin: 0.5em auto;
+}
+
+.form-sep-invis {
+  width: 90%;
+  height: 1px;
   margin: 0 auto;
 }
 

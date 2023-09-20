@@ -1,6 +1,6 @@
 import { ScheduleItem } from "./ScheduleItem";
 
-export function ScheduleList({ Schedules, deleteSchedule }) {
+export function ScheduleList({ Schedules, deleteSchedule, selectSchedule }) {
     return (
         <ul className="list">
             {Schedules.length === 0 && "No Schedules"}
@@ -10,6 +10,7 @@ export function ScheduleList({ Schedules, deleteSchedule }) {
                         {...Schedule}
                         key={Schedule.id}
                         deleteSchedule={deleteSchedule}
+                        selectSchedule={selectSchedule}
                     />
                 );
             })}
