@@ -1,4 +1,4 @@
-export function ScheduleItem({id, title, deleteSchedule, selectSchedule}) {
+export function ScheduleItem({id, name, deleteSchedule, selectSchedule}) {
     return (
       <li>
 
@@ -11,7 +11,7 @@ export function ScheduleItem({id, title, deleteSchedule, selectSchedule}) {
           className="listItemLabel"
           onClick={()=>selectSchedule(id)}
         >
-          {title}
+          {name}
         </label>
       </li>
     );

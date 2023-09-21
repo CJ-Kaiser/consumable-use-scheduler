@@ -9,11 +9,13 @@ export default function App() {
   const [schedules, setSchedules] = useSchedules();
   const [selected, setSelected] = useState(null);
 
-  function addSchedule(title) {
+  function addSchedule(scheduleData) {
+    const newSchedule = {id: crypto.randomUUID(), ...scheduleData};
+    console.log(newSchedule);
     setSchedules(currentSchedules => {
       return [
         ...currentSchedules,
-        {id: crypto.randomUUID(), title}
+        newSchedule
       ]
     });
   }

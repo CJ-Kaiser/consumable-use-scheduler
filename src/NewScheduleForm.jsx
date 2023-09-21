@@ -1,5 +1,6 @@
 import { useState } from "react";
 
+
 const modeOptions = [
   {
     value:"durationMissing",
@@ -15,7 +16,11 @@ const modeOptions = [
   }
 ];
 
-//TODO: Formik and Yup for validation? Refer to project from Ract Basics.
+export const durationModeKey = modeOptions[0].value;
+export const intervalModeKey = modeOptions[1].value;
+export const itemCountModeKey = modeOptions[2].value;
+
+//TODO: Formik and Yup for validation? Refer to project from React Basics.
 export function NewScheduleForm({onSubmit}) {
     const [name, setName] = useState("");
     const [duration, setDuration] = useState("");
@@ -29,7 +34,15 @@ export function NewScheduleForm({onSubmit}) {
       if(name === "") return;
       //if(duration === NaN || duration <= 0) return;
 
-      onSubmit(name);
+      const data = {
+        name: name,
+        mode: mode,
+        itemCount: itemCount,
+        duration: duration,
+        interval: interval,
+      };
+
+      onSubmit(data);
 
       setName("");
       setDuration("");
@@ -37,11 +50,16 @@ export function NewScheduleForm({onSubmit}) {
       setItemCount("");
     };
 
-    const showDurationInput = () => mode != "durationMissing";
-    const showIntervalInput = () => mode != "intervalMissing";
-    const showItemCountInput = () => mode != "itemCountMissing";
+    const showDurationInput = () => mode != modeOptions[0].value;
+    const showIntervalInput = () => mode != modeOptions[1].value;
+    const showItemCountInput = () => mode != modeOptions[2].value;
 
     function validateNumberMax(value, max, setter) {
+      if(value == "") {
+        setter(value);
+        return;
+      }
+
       value = Math.max(max, value);
       setter(value);
     }
