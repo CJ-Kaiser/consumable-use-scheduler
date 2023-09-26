@@ -43,9 +43,8 @@ body {
 }
 
 .btn {
-  background: hsl(200, 100%, 50%, 0.1);
-  border: 1px solid hsl(200, 100%, 50%);
-  color: hsl(200, 100%, 50%);
+  background: hsl(200, 100%, 50%);
+  border: none;
   padding: 0.25em 0.5em;
   border-radius: 0.25em;
   cursor: pointer;
@@ -54,13 +53,16 @@ body {
 
 .btn:hover,
 .btn:focus-visible {
-  background: hsl(200, 100%, 50%, 0.2);
+  background: hsl(190, 100%, 50%);
+}
+
+.btn:active {
+  background: hsl(190, 100%, 80%);
 }
 
 .btn.btn-danger {
-  background: hsl(0, 100%, 40%, 0.1);
-  border: 1px solid hsl(0, 100%, 40%);
-  color: hsl(0, 100%, 40%);
+  background:hsl(0, 100%, 40%);
+  border: none;
 }
 
 .btn.btn-danger:hover,
@@ -114,14 +116,17 @@ body {
   gap: 0.25rem;
   cursor: pointer;
   align-items: center;
-  border: 1px solid white;
   padding: 0.25em 0.5em;
   border-radius: 0.25em;
-  box-sizing: border-box;
-  height: 1.5em;
+  /* height: 1.5em; */
+  background: hsl(200, 100%, 50%);
+  color: hsl(0,0%,0%);
 }
 
 .listItemLabel:hover {
-  border: 3px solid white;
-  background-color: #CCCCCC88;
+  background: hsl(190, 100%, 50%);
+}
+
+.listItemLabel:active {
+  background: hsl(190, 100%, 80%);
 }
