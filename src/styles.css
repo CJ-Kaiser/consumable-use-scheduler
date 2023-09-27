@@ -11,7 +11,7 @@ body {
   margin: 0 auto;
 }
 
-.new-item-form {
+.vertical-form {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -70,8 +70,8 @@ body {
   background: hsl(0, 100%, 40%, 0.5);
 }
 
-.new-item-form select,
-.new-item-form input {
+.vertical-form select,
+.vertical-form input {
   outline: none;
   border: 1px solid hsl(200, 100%, 40%);
   background: hsl(200, 100%, 30%);
@@ -82,7 +82,7 @@ body {
   box-sizing:content-box;
 }
 
-.new-item-form input:focus {
+.vertical-form input:focus {
   border: 1px solid hsl(200, 100%, 70%);
 }
 

@@ -65,7 +65,7 @@ export function NewScheduleForm({onSubmit}) {
     }
 
     return (
-      <form onSubmit={handleSubmit} className="new-item-form">
+      <form onSubmit={handleSubmit} className="vertical-form">
         <label htmlFor="title" className="form-input-h">Schedule Name
           <input
             type="text"
