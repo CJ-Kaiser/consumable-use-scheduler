@@ -1,61 +1,50 @@
 import { useState, useEffect } from "react";
 import "./styles.css"
-import { NewScheduleForm } from "./NewScheduleForm";
-import { ScheduleList } from "./ScheduleList";
-import useSchedules from "./useSchedules";
-import { Schedule } from "./Schedule";
+import useTemplates from "./useTemplates";
+import { Template } from "./Template";
+import { Sidebar } from "./Sidebar";
 
 export default function App() {
-  const [schedules, setSchedules] = useSchedules();
+  const [templates, setTemplates] = useTemplates();
   const [selected, setSelected] = useState(null);
 
-  function addSchedule(scheduleData) {
-    const newSchedule = {id: crypto.randomUUID(), ...scheduleData};
-    console.log(newSchedule);
-    setSchedules(currentSchedules => {
+  function addTemplate(templateData) {
+    const newTemplate = {id: crypto.randomUUID(), ...templateData};
+    console.log(newTemplate);
+    setTemplates(currentTemplates => {
       return [
-        ...currentSchedules,
-        newSchedule
+        ...currentTemplates,
+        newTemplate
       ]
     });
   }
 
-  function toggleSchedule(id, completed) {
-    setSchedules(currentSchedules => {
-      return currentSchedules.map(Schedule => {
-        if(Schedule.id == id)
-          return {...Schedule, completed}
-
-        return Schedule;
-      });
-    });
-  }
-
-  function deleteSchedule(id) {
-    setSchedules(currentSchedules => {
-      return currentSchedules.filter(Schedule => Schedule.id !== id);
+  function deleteTemplate(id) {
+    setTemplates(currentTemplates => {
+      return currentTemplates.filter(template => template.id !== id);
     });
 
     if(selected.id == id)
       setSelected(null);
   }
 
-  function selectSchedule(id) {
-    let schedule = schedules.find(s => s.id == id);
-    if(schedule !== undefined)
-      setSelected(schedule);
+  function selectTemplate(id) {
+    let template = templates.find(s => s.id == id);
+    if(template !== undefined)
+      setSelected(template);
   }
 
   return (
     <>
-      <NewScheduleForm onSubmit={addSchedule}/>
-      <h1 className="header">Schedule List</h1>
-      <ScheduleList
-        Schedules={schedules}
-        deleteSchedule={deleteSchedule}
-        selectSchedule={selectSchedule}
-      />
-      <Schedule schedule={selected}/>
+      <Sidebar 
+      templateData={{
+        templates: templates,
+        delete: deleteTemplate,
+        select: selectTemplate,
+      }}/>
+      <div className="content">
+        <Template template={selected} addTemplate={addTemplate}/>
+      </div>
     </>
   );
 }

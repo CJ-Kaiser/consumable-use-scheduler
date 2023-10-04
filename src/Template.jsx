@@ -1,21 +1,29 @@
 import { useEffect, useState } from "react";
-import { durationModeKey, intervalModeKey, itemCountModeKey } from "./NewScheduleForm";
+import { durationModeKey, intervalModeKey, itemCountModeKey } from "./NewTemplateForm";
+import { NewTemplateForm } from "./NewTemplateForm";
 import { todayDateString, timeString, daysToMs} from "./dateUtil";
 import { ScheduleDate } from "./ScheduleDate";
 
-export function Schedule({schedule}) {
+//TODO: 
+export function Template({template, addTemplate}) {
     const [date, setDate] = useState(todayDateString());
     const [time, setTime] = useState(timeString(new Date()));
-    const [scheduleList, setScheduleList] = useState([]);
+    const [dateList, setDateList] = useState([]);
 
     useEffect(() => {
-        setScheduleList([]);
-    }, [schedule]);
+        setDateList([]);
+    }, [template]);
 
-    if(!schedule)
-        return <h1>No schedule selected</h1>
+    if(!template){
+        return (
+            <>
+                <NewTemplateForm onSubmit={addTemplate}/>
+                <h1>No template selected</h1>
+            </>
+        );
+    }
 
-    calculateMissingValue(schedule);
+    calculateMissingValue(template);
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -23,26 +31,27 @@ export function Schedule({schedule}) {
 
         const parsedDate = new Date(date + " " + time);
         const startMs = parsedDate.getTime();
-        const intervalMs = intervalInMs(schedule.interval);
+        const intervalMs = intervalInMs(template.interval);
 
         const dates = [];
-        for(let i=0; i< schedule.itemCount; i++)
+        for(let i=0; i< template.itemCount; i++)
         {
             let ms = startMs + intervalMs * i;
             dates.push(new Date(ms));
         }
 
-        setScheduleList(dates);
+        setDateList(dates);
     }
 
     return (
         <>
+            <NewTemplateForm onSubmit={addTemplate}/>
             <p>-   -   -    -   -</p>
-            <h1>{schedule.name}</h1>
-            <p><b>Mode:</b> {schedule.mode}</p>
-            <p><b>Item count:</b> {schedule.itemCount}</p>
-            <p><b>Duration (days)</b>: {schedule.duration}</p>
-            <p><b>Interval (days)</b>: {schedule.interval}</p>
+            <h1>{template.name}</h1>
+            <p><b>Mode:</b> {template.mode}</p>
+            <p><b>Item count:</b> {template.itemCount}</p>
+            <p><b>Duration (days)</b>: {template.duration}</p>
+            <p><b>Interval (days)</b>: {template.interval}</p>
             <p>-   -   -    -   -</p>
             <form onSubmit={handleSubmit} className="vertical-form">
                 <label htmlFor="startDate"  className="form-input-h"> Start Date
@@ -61,9 +70,9 @@ export function Schedule({schedule}) {
                         onChange={e=>setTime(e.target.value)}
                     />
                 </label>
-                <button className="btn">Calculate</button>
+                <button className="btn">Calculate Schedule</button>
             </form>
-            <div>{scheduleList.map(date=> (
+            <div>{dateList.map(date=> (
                 <ScheduleDate key={date.getTime()} date={date}/>
             ))}
             </div>

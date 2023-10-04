@@ -1,15 +1,15 @@
-export function ScheduleItem({id, name, deleteSchedule, selectSchedule}) {
+export function TemplateItem({id, name, deleteTemplate, selectTemplate}) {
     return (
       <li>
 
         <button
           className="btn btn-danger"
-          onClick={() => deleteSchedule(id)}
+          onClick={() => deleteTemplate(id)}
         >
           X</button>
         <label
           className="listItemLabel"
-          onClick={()=>selectSchedule(id)}
+          onClick={()=>selectTemplate(id)}
         >
           {name}
         </label>
