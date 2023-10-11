@@ -39,6 +39,7 @@ export default function App() {
       <Sidebar 
       templateData={{
         templates: templates,
+        selectedID: selected==null ? "" : selected.id,
         delete: deleteTemplate,
         select: selectTemplate,
       }}/>

@@ -4,7 +4,6 @@ import { NewTemplateForm } from "./NewTemplateForm";
 import { todayDateString, timeString, daysToMs} from "./dateUtil";
 import { ScheduleDate } from "./ScheduleDate";
 
-//TODO: 
 export function Template({template, addTemplate}) {
     const [date, setDate] = useState(todayDateString());
     const [time, setTime] = useState(timeString(new Date()));
@@ -84,16 +83,16 @@ function intervalInMs(interval) {
     return daysToMs(interval);
 }
 
-function calculateMissingValue(schedule) {
-    switch (schedule.mode) {
+function calculateMissingValue(template) {
+    switch (template.mode) {
         case durationModeKey:
-            schedule.duration = schedule.interval * schedule.itemCount;
+            template.duration = template.interval * template.itemCount;
             break;
         case intervalModeKey:
-            schedule.interval = schedule.duration / schedule.itemCount;
+            template.interval = template.duration / template.itemCount;
             break;
         case itemCountModeKey:
-            schedule.itemCount = Math.floor(schedule.duration / schedule.interval);
+            template.itemCount = Math.floor(template.duration / template.interval);
         default:
             break;
     }

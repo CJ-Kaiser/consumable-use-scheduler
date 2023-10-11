@@ -25,6 +25,7 @@ export function Sidebar({templateData}) {
             {tab === tabs[0] && 
                 <TemplateList
                     templates={templateData.templates}
+                    selectedID={templateData.selectedID}
                     deleteTemplate={templateData.delete}
                     selectTemplate={templateData.select}
                 />
