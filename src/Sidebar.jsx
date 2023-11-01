@@ -1,35 +1,45 @@
 import { useState } from "react";
 import { TemplateList } from "./TemplateList";
+import { Link } from "react-router-dom";
 
-const tabs = ["Templates", "Schedules"];
+const tabs = [
+    {
+        path:"templates",
+        text:"Templates",
+    },
+    {
+        path: "schedules",
+        text: "Schedules",
+    }
+];
 
-export function Sidebar({templateData}) {
+export function Sidebar({templates, schedules}) {
     const [tab, setTab] = useState(tabs[0]);
 
     function tabClicked(clickedTab) {
         setTab(clickedTab);
     }
 
+    let renderedTab;
+    if(tab.text == "Templates")
+        renderedTab = <TemplateList templates={templates}/>
+    else if(tab.text == "Schedules")
+        renderedTab = <p>Schedule List</p>
+
     return (
         <section className="sidebar">
             <div className="tabs">
                 {tabs.map(t => (
-                    <button
-                    key={t}
-                    className={"btn tab " + (t==tab ? "activeTab" : "")}
+                    <Link
+                    to={t.path}
+                    key={t.path}
+                    className={"btn tab " + (t.text==tab.text ? "activeTab" : "")}
                     onClick={()=>tabClicked(t)}
-                    >{t}</button>
+                    >{t.text}</Link>
                     ))}
             </div>
-            <h2>{tab}</h2>
-            {tab === tabs[0] && 
-                <TemplateList
-                    templates={templateData.templates}
-                    selectedID={templateData.selectedID}
-                    deleteTemplate={templateData.delete}
-                    selectTemplate={templateData.select}
-                />
-            }
+            <h2>{tab.text}</h2>
+            {renderedTab}
         </section>
     );
 }

@@ -3,21 +3,20 @@ import "./styles.css"
 import useTemplates from "./useTemplates";
 import { Template } from "./Template";
 import { Sidebar } from "./Sidebar";
+import { Outlet } from "react-router-dom";
+import { loadTemplates } from "./scheduleIO";
+import { useLoaderData } from "react-router-dom";
 
-export default function App() {
-  const [templates, setTemplates] = useTemplates();
-  const [selected, setSelected] = useState(null);
+export async function loader() {
+  let templates = await loadTemplates();
+  if(!templates)
+      templates = [];
+  let schedules = [];
+  return {templates, schedules};
+}
 
-  function addTemplate(templateData) {
-    const newTemplate = {id: crypto.randomUUID(), ...templateData};
-    console.log(newTemplate);
-    setTemplates(currentTemplates => {
-      return [
-        ...currentTemplates,
-        newTemplate
-      ]
-    });
-  }
+export function App() {
+  const {templates, schedules} = useLoaderData();
 
   function deleteTemplate(id) {
     setTemplates(currentTemplates => {
@@ -36,15 +35,13 @@ export default function App() {
 
   return (
     <>
-      <Sidebar 
-      templateData={{
-        templates: templates,
-        selectedID: selected==null ? "" : selected.id,
-        delete: deleteTemplate,
-        select: selectTemplate,
-      }}/>
+      <Sidebar
+        templates={templates}
+        schedules={schedules}
+      />
       <div className="content">
-        <Template template={selected} addTemplate={addTemplate}/>
+        <Outlet/>
+        {/* <Template template={selected} addTemplate={addTemplate}/> */}
       </div>
     </>
   );

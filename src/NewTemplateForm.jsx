@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Form } from "react-router-dom";
 
 
 const modeOptions = [
@@ -32,7 +33,6 @@ export function NewTemplateForm({onSubmit}) {
     function handleSubmit(e) {
       e.preventDefault();
       if(name === "") return;
-      //if(duration === NaN || duration <= 0) return;
 
       const data = {
         name: name,
@@ -67,11 +67,12 @@ export function NewTemplateForm({onSubmit}) {
     return (
       <>
         <h1>New Template</h1>
-        <form onSubmit={handleSubmit} className="vertical-form">
+        <Form method="post" className="vertical-form">
           <label htmlFor="title" className="form-input-h">Template Name
             <input
               type="text"
               id="title"
+              name="name"
               value={name}
               onChange={e => setName(e.target.value)}
             />
@@ -80,6 +81,7 @@ export function NewTemplateForm({onSubmit}) {
           <label htmlFor="mode" className="form-input-h">Mode
               <select
                 id="mode"
+                name="mode"
                 value={mode}
                 onChange={e=>setMode(e.target.value)}
               >
@@ -93,6 +95,7 @@ export function NewTemplateForm({onSubmit}) {
                 <input
                   type="number"
                   id="itemCount"
+                  name="itemCount"
                   value={itemCount}
                   onChange={e=>validateNumberMax(e.target.value, 1, setItemCount)}
                 />
@@ -103,6 +106,7 @@ export function NewTemplateForm({onSubmit}) {
                 <input
                   type="number"
                   id="time"
+                  name="duration"
                   value={duration}
                   onChange={e=>validateNumberMax(e.target.value, 1, setDuration)}
                 />
@@ -113,15 +117,16 @@ export function NewTemplateForm({onSubmit}) {
                 <input
                   type="number"
                   id="interval"
+                  name="interval"
                   value={interval}
                   onChange={e=>validateNumberMax(e.target.value, 0, setInterval)}
                 />
               </label>
             }
             <div className="form-sep-invis"></div>
-          <button className="btn">Add</button>
+          <button type="submit" className="btn">Add</button>
           <div className="form-sep"></div>
-        </form>
+        </Form>
       </>
     );
 }

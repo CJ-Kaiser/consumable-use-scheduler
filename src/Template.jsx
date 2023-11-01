@@ -1,26 +1,25 @@
 import { useEffect, useState } from "react";
 import { durationModeKey, intervalModeKey, itemCountModeKey } from "./NewTemplateForm";
-import { NewTemplateForm } from "./NewTemplateForm";
 import { todayDateString, timeString, daysToMs} from "./dateUtil";
 import { ScheduleDate } from "./ScheduleDate";
+import { getTemplate } from "./scheduleIO";
+import { useLoaderData } from "react-router-dom";
 
-export function Template({template, addTemplate}) {
+export async function loader({params}) {
+    console.log(params.templateId);
+    const template = await getTemplate(params.templateId);
+    return {template};
+}
+
+export function Template() {
     const [date, setDate] = useState(todayDateString());
     const [time, setTime] = useState(timeString(new Date()));
     const [dateList, setDateList] = useState([]);
+    const {template} = useLoaderData();
 
     useEffect(() => {
         setDateList([]);
     }, [template]);
-
-    if(!template){
-        return (
-            <>
-                <NewTemplateForm onSubmit={addTemplate}/>
-                <h1>No template selected</h1>
-            </>
-        );
-    }
 
     calculateMissingValue(template);
 
@@ -44,8 +43,6 @@ export function Template({template, addTemplate}) {
 
     return (
         <>
-            <NewTemplateForm onSubmit={addTemplate}/>
-            <p>-   -   -    -   -</p>
             <h1>{template.name}</h1>
             <p><b>Mode:</b> {template.mode}</p>
             <p><b>Item count:</b> {template.itemCount}</p>

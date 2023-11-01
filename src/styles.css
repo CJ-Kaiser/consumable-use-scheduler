@@ -52,6 +52,7 @@ body {
   border-radius: 0.5em;
   cursor: pointer;
   outline: none;
+  text-decoration: none;
 }
 
 .btn:hover,
@@ -66,6 +67,13 @@ body {
 .btn.btn-danger {
   background:hsl(0, 100%, 40%);
   border: none;
+}
+
+.btn-header {
+  display: inline-block;
+  padding: 0.5em 1em;
+  margin-top: -0.4em;
+  margin-bottom: 1em;
 }
 
 .btn.btn-danger:hover,
