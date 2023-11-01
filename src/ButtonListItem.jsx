@@ -1,18 +1,20 @@
-export function ButtonListItem({id, label, selected, deleteFunc, selectFunc}) {
+import { Link } from "react-router-dom";
+
+export function ButtonListItem({id, label, selected, path}) {
     return (
       <li className={selected ? "selected" : ""}>
 
-        <button
+        <Link
           className="btn btn-danger"
-          onClick={() => deleteFunc(id)}
+          to={path+ "/" + id + "/delete"}
         >
-          X</button>
-        <label
+          X</Link>
+        <Link
           className="listItemLabel"
-          onClick={()=>selectFunc(id)}
+          to={path + "/" + id}
         >
           {label}
-        </label>
+        </Link>
       </li>
     );
 }
