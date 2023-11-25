@@ -32,9 +32,11 @@ async function deleteTemplate({params}) {
 async function addSchedule({request}) {
   const formData = await request.formData();
   const formObject = Object.fromEntries(formData);
+  const templates = await loadTemplates();
+  const template = templates[formObject.template];
   const newSchedule = {
     id: crypto.randomUUID(),
-    templateId: formObject.template.id,
+    templateId: template.id,
     name: formObject.name,
     startDate: formObject.startDate,
     startTime: formObject.startTime,

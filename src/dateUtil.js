@@ -30,3 +30,13 @@ export function todayDateString() {
 export function timeString(date) {
     return `${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(2,"0")}`;
 }
+
+export function calculateDates(startMs, intervalMs, itemCount) {
+    const dates = [];
+    for(let i=0; i< itemCount; i++)
+    {
+        let ms = startMs + intervalMs * i;
+        dates.push(new Date(ms));
+    }
+    return dates;
+}

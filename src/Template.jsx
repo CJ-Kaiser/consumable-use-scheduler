@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { durationModeKey, intervalModeKey, itemCountModeKey } from "./NewTemplateForm";
-import { todayDateString, timeString, daysToMs} from "./dateUtil";
-import { ScheduleDate } from "./ScheduleDate";
+import { todayDateString, timeString, daysToMs, calculateDates} from "./dateUtil";
+import { ScheduleDateList } from "./ScheduleDateList";
 import { getTemplate } from "./scheduleIO";
 import { useLoaderData } from "react-router-dom";
 
@@ -31,12 +31,14 @@ export function Template() {
         const startMs = parsedDate.getTime();
         const intervalMs = intervalInMs(template.interval);
 
-        const dates = [];
+        const dates = calculateDates(startMs, intervalMs, template.itemCount);
+        /*
         for(let i=0; i< template.itemCount; i++)
         {
             let ms = startMs + intervalMs * i;
             dates.push(new Date(ms));
         }
+        */
 
         setDateList(dates);
     }
@@ -68,10 +70,7 @@ export function Template() {
                 </label>
                 <button className="btn">Preview Schedule</button>
             </form>
-            <div>{dateList.map(date=> (
-                <ScheduleDate key={date.getTime()} date={date}/>
-            ))}
-            </div>
+            <ScheduleDateList dates={dateList}/>
         </>
     );
 }

@@ -1,8 +1,8 @@
 import {useState, useEffect} from "react";
 import { Form, useLoaderData } from "react-router-dom";
 import { loadTemplates } from "./scheduleIO";
-import { todayDateString, timeString, daysToMs } from "./dateUtil";
-import {ScheduleDate} from "./ScheduleDate"
+import { todayDateString, timeString, daysToMs, calculateDates } from "./dateUtil";
+import { ScheduleDateList } from "./ScheduleDateList";
 
 export async function loader() {
     const templates = await loadTemplates();
@@ -33,16 +33,16 @@ export function NewScheduleForm() {
         console.log("startMs:", startMs);
         console.log("intervalMs:", intervalMs);
 
-        const dates = [];
+        const dates = calculateDates(startMs, intervalMs, template.itemCount);
+        /*
         for(let i=0; i< template.itemCount; i++)
         {
             let ms = startMs + intervalMs * i;
             dates.push(new Date(ms));
         }
+        */
         setDateList(dates);
     }
-
-
 
     return (
         <>
@@ -73,6 +73,7 @@ export function NewScheduleForm() {
                     <input
                         type="date"
                         id="startDate"
+                        name="startDate"
                         value={date}
                         disabled={selectedTemplate === null}
                         onChange={e=>setDate(e.target.value)}
@@ -82,6 +83,7 @@ export function NewScheduleForm() {
                     <input
                         type="time"
                         id="startTime"
+                        name="startTime"
                         value={time}
                         disabled={selectedTemplate === null}
                         onChange={e=>setTime(e.target.value)}
@@ -94,10 +96,7 @@ export function NewScheduleForm() {
                 >Add</button>
             </Form>
             <div className="form-sep"></div>
-            <div>{dateList.map(date=> (
-                <ScheduleDate key={date.getTime()} date={date}/>
-            ))}
-            </div>
+            <ScheduleDateList dates={dateList}/>
         </>
     );
 }
