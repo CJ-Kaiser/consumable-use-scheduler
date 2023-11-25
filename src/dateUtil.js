@@ -28,5 +28,5 @@ export function todayDateString() {
 }
 
 export function timeString(date) {
-    return `${date.getHours()}:${date.getMinutes()}`;
+    return `${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(2,"0")}`;
 }

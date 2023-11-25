@@ -1,5 +1,6 @@
 
 import { getSchedule } from "./scheduleIO"
+import { useLoaderData } from "react-router-dom";
 
 export async function loader({params}) {
     const schedule = await getSchedule(params.scheduleId);
@@ -11,10 +12,7 @@ export function Schedule() {
 
     return (
         <div>
-            {schedule.map(s=> (
-                <ScheduleDate key={s.date.getTime()} date={s.date}/>
-            ))
-        }
+            {schedule.name}
         </div>
     );
 }

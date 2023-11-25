@@ -66,7 +66,7 @@ export function Template() {
                         onChange={e=>setTime(e.target.value)}
                     />
                 </label>
-                <button className="btn">Calculate Schedule</button>
+                <button className="btn">Preview Schedule</button>
             </form>
             <div>{dateList.map(date=> (
                 <ScheduleDate key={date.getTime()} date={date}/>

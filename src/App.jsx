@@ -4,14 +4,16 @@ import useTemplates from "./useTemplates";
 import { Template } from "./Template";
 import { Sidebar } from "./Sidebar";
 import { Outlet } from "react-router-dom";
-import { loadTemplates } from "./scheduleIO";
+import { loadTemplates, loadSchedules} from "./scheduleIO";
 import { useLoaderData } from "react-router-dom";
 
 export async function loader() {
   let templates = await loadTemplates();
+  let schedules = await loadSchedules();
   if(!templates)
       templates = [];
-  let schedules = [];
+  if(!schedules)
+    schedules = [];
   return {templates, schedules};
 }
 

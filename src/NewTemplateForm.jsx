@@ -130,3 +130,18 @@ export function NewTemplateForm({onSubmit}) {
       </>
     );
 }
+
+export function calculateMissingValue(template) {
+  switch (template.mode) {
+      case durationModeKey:
+          template.duration = template.interval * template.itemCount;
+          break;
+      case intervalModeKey:
+          template.interval = template.duration / template.itemCount;
+          break;
+      case itemCountModeKey:
+          template.itemCount = Math.floor(template.duration / template.interval);
+      default:
+          break;
+  }
+}

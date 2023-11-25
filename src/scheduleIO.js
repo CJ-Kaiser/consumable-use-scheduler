@@ -4,13 +4,14 @@ const templateKey = "kTemplates";
 const scheduleKey = "kSchedules";
 
 export async function loadTemplates() {
-    return await loadData(templateKey);
-    const templates = await localforage.getItem(templateKey);
+    const templates = await loadData(templateKey);
+    if(!templates)
+        return[];
+
     return templates;
 }
 
 export async function getTemplate(id){
-    //const templates = await localforage.getItem(templateKey);
     const templates = await loadTemplates();
     let template = templates.find(t => t.id == id);
     return template ?? null;
@@ -21,15 +22,17 @@ export async function saveTemplates(templates) {
     return await setData(templateKey, templates);
 }
 
-
-
 export async function loadSchedules(){
-    return await loadData(scheduleKey);
+    const schedules = await loadData(scheduleKey);
+    if(!schedules)
+        return [];
+
+    return schedules;
 }
 
 export async function getSchedule(id){
     const schedules = await loadSchedules();
-    let shedule = schedules.find(s => s.id == id);
+    let schedule = schedules.find(s => s.id == id);
     return schedule ?? null;
 }
 

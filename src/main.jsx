@@ -3,15 +3,18 @@ import ReactDOM from 'react-dom/client'
 import {App, loader as sidebarLoader} from './App.jsx'
 import { createBrowserRouter, redirect, RouterProvider } from "react-router-dom";
 import ErrorPage from './ErrorPage.jsx';
-import { NewTemplateForm } from './NewTemplateForm.jsx';
+import { NewTemplateForm, calculateMissingValue} from './NewTemplateForm.jsx';
+import { NewScheduleForm, loader as scheduleFormLoader } from './NewScheduleForm.jsx';
 import { Template, loader as templateLoader } from './Template.jsx';
+import {Schedule, loader as scheduleLoader} from './Schedule.jsx';
 
 import { loadSchedules, loadTemplates, saveTemplates, saveSchedules } from './scheduleIO.js';
 
 async function addTemplate({request}) {
   const formData = await request.formData();
-  const newTemp = Object.fromEntries(formData);
-  const newTemplate = { id: crypto.randomUUID(), ...newTemp };
+  const formObject = Object.fromEntries(formData);
+  const newTemplate = { id: crypto.randomUUID(), ...formObject };
+  calculateMissingValue(newTemplate);
   const templates = await loadTemplates();
   await saveTemplates([...templates, newTemplate]);
 
@@ -28,12 +31,26 @@ async function deleteTemplate({params}) {
 
 async function addSchedule({request}) {
   const formData = await request.formData();
-  let newSchedule = Object.fromEntries(formData);
-  newSchedule = { id: crypto.randomUUID(), ...newSchedule };
+  const formObject = Object.fromEntries(formData);
+  const newSchedule = {
+    id: crypto.randomUUID(),
+    templateId: formObject.template.id,
+    name: formObject.name,
+    startDate: formObject.startDate,
+    startTime: formObject.startTime,
+  };
   const schedules = await loadSchedules();
   await saveSchedules([...schedules, newSchedule]);
 
   return redirect(`/schedules/${newSchedule.id}`);
+}
+
+async function deleteSchedule({params}) {
+  const id = params.scheduleId;
+  const schedules = await loadSchedules();
+  const withDeletion = schedules.filter(s => s.id !== id);
+  await saveSchedules(withDeletion);
+  return redirect("/schedules")
 }
 
 const router = createBrowserRouter([
@@ -45,7 +62,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "templates",
-        element: <p>Select a Template</p>,
+        element: <p>Select a template or create a new one</p>,
       },
       {
         path: "templates/:templateId",
@@ -64,8 +81,24 @@ const router = createBrowserRouter([
       },
       {
         path: "schedules",
-        element: (<h1>Placeholder</h1>),
-      }
+        element: <h1>Select a schedule or create a new one</h1>,
+      },
+      {
+        path: "schedules/:scheduleId",
+        element: <Schedule/>,
+        loader: scheduleLoader,
+      },
+      {
+        path: "schedules/new",
+        element: <NewScheduleForm/>,
+        loader: scheduleFormLoader,
+        action: addSchedule,
+      },
+      {
+        path: "schedules/:scheduleId/delete",
+        element: <p>Deleting</p>,
+        loader: deleteSchedule,
+      },
     ]
   }
 ]);

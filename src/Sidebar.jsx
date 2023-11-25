@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { TemplateList } from "./TemplateList";
 import { Link } from "react-router-dom";
+import { ScheduleList } from "./ScheduleList";
 
 const tabs = [
     {
@@ -24,7 +25,7 @@ export function Sidebar({templates, schedules}) {
     if(tab.text == "Templates")
         renderedTab = <TemplateList templates={templates}/>
     else if(tab.text == "Schedules")
-        renderedTab = <p>Schedule List</p>
+        renderedTab = <ScheduleList schedules={schedules}/>
 
     return (
         <section className="sidebar">
